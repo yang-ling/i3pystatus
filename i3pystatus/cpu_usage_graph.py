@@ -63,5 +63,6 @@ class CpuUsageGraph(CpuUsage, ColorRangeModule):
         self.data = format_options
         self.output = {
             "full_text": self.format.format_map(format_options),
+            "short_text": "",
             'color': color
         }
