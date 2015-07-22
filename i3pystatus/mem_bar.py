@@ -53,5 +53,6 @@ class MemBar(IntervalModule, ColorRangeModule):
         self.output = {
             "full_text": self.format.format(
                 used_mem_bar=make_bar(memory_usage.percent)),
+            "short_text": "",
             "color": color
         }
