@@ -1,5 +1,5 @@
 from i3pystatus import IntervalModule
-from psutil import virtual_memory
+from psutil import swap_memory
 from .core.util import round_dict
 
 
