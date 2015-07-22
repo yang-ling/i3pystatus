@@ -55,7 +55,12 @@ class Swap(IntervalModule):
         }
         round_dict(cdict, self.round_size)
 
-        self.output = {
-            "full_text": self.format.format(**cdict),
-            "color": color
-        }
+        if used == 0:
+          self.output = {
+              "full_text": "",
+              }
+        else:
+          self.output = {
+              "full_text": self.format.format(**cdict),
+              "color": color
+              }
