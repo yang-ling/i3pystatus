@@ -20,7 +20,9 @@ __all__ = [
     "get_module",
 ]
 
-logpath = os.path.join(os.path.expanduser("~"), ".i3pystatus-%s" % os.getpid())
+if not os.path.exists(os.path.join(os.path.expanduser("~"), ".i3pystatus-log")):
+  os.mkdir(os.path.join(os.path.expanduser("~"), ".i3pystatus-log"), 0o755)
+logpath = os.path.join(os.path.expanduser("~"), ".i3pystatus-log", ".i3pystatus-%s" % os.getpid())
 handler = logging.FileHandler(logpath, delay=True)
 logger = logging.getLogger("i3pystatus")
 logger.addHandler(handler)
