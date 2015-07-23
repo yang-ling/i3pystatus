@@ -28,6 +28,7 @@ class CpuUsageGraph(CpuUsage, ColorRangeModule):
         ("graph_width", "Width of the cpu usage graph"),
         ("graph_style", "Graph style ('blocks', 'braille-fill', 'braille-peak', or 'braille-snake')"),
         ("direction", "Graph running direction ('left-to-right', 'right-to-left')"),
+        ("optional", "If it is true, this graph will hide when screen is too narrow")
     )
 
     graph_width = 15
@@ -35,6 +36,7 @@ class CpuUsageGraph(CpuUsage, ColorRangeModule):
     format = '{cpu_graph}'
     cpu = 'usage_cpu'
     direction = 'left-to-right'
+    optional = False
 
     def init(self):
         super().init()
@@ -61,8 +63,14 @@ class CpuUsageGraph(CpuUsage, ColorRangeModule):
 
         color = self.get_gradient(core_reading, self.colors)
         self.data = format_options
-        self.output = {
-            "full_text": self.format.format_map(format_options),
-            "short_text": "",
-            'color': color
-        }
+        if self.optional:
+            self.output = {
+                "full_text": self.format.format_map(format_options),
+                "short_text": "",
+                'color': color
+            }
+        else:
+            self.output = {
+                "full_text": self.format.format_map(format_options),
+                'color': color
+            }
