@@ -29,8 +29,8 @@ class Pomodoro(IntervalModule):
         ('format', 'format string, available formatters: current_pomodoro, '
                    'total_pomodoro, time')
     )
-    required = ('sound',)
 
+    sound = ""
     color_stopped = '#2ECCFA'
     color_running = '#FFFF00'
     color_break = '#37FF00'
@@ -101,6 +101,7 @@ class Pomodoro(IntervalModule):
         self.time = None
 
     def _alarm(self, text):
+<<<<<<< HEAD
         notification = DesktopNotification('Alarm!', text)
         notification.display()
 
