@@ -290,6 +290,7 @@ class Network(IntervalModule, ColorRangeModule):
                              "Each key can be either a full interface name, or a pattern matching "
                              "a interface, eg 'e*' for ethernet interfaces. "
                              "Fallback to format_up if no pattern could be matched."),
+        ("format_short_up", "format string"),
         ("format_down", "format string"),
         "color_up",
         "color_down",
@@ -323,6 +324,7 @@ class Network(IntervalModule, ColorRangeModule):
 
     format_up = "{interface} {network_graph}{kbs}KB/s"
     format_active_up = {}
+    format_short_up = "{interface} {network_graph}{kbs}KB/s"
     format_down = "{interface}: DOWN"
     color_up = "#00FF00"
     color_down = "#FF0000"
@@ -452,11 +454,11 @@ class Network(IntervalModule, ColorRangeModule):
                 for pattern in self.format_active_up:
                     if fnmatch(self.interface, pattern):
                         format_str = self.format_active_up.get(pattern, self.format_up)
+            format_short_str = self.format_short_up
         else:
             color = self.color_down
             format_str = self.format_down
-            if self.next_if_down:
-                self.cycle_interface()
+            format_short_str = self.format_down
 
         network_info = self.network_info.get_info(self.interface)
         format_values.update(network_info)
@@ -464,6 +466,7 @@ class Network(IntervalModule, ColorRangeModule):
 
         self.data = format_values
         self.output = {
-            "full_text": formatp(format_str, **format_values).strip(),
+            "full_text": format_str.format(**format_values),
+            "short_text": format_short_str.format(**format_values),
             'color': color,
         }
