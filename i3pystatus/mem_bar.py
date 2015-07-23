@@ -22,6 +22,7 @@ class MemBar(IntervalModule, ColorRangeModule):
     warn_percentage = 50
     alert_percentage = 80
     multi_colors = False
+    optional = False
 
     def init(self):
         self.colors = self.get_hex_color_range(self.color, self.alert_color, 100)
@@ -36,6 +37,7 @@ class MemBar(IntervalModule, ColorRangeModule):
         ("alert_color",
          "defines the color used when alert percentage is exceeded"),
         ("multi_colors", "whether to use range of colors from 'color' to 'alert_color' based on memory usage."),
+        ("optional", "If it is true, this mem bar will hide when screen is too narrow"),
     )
 
     def run(self):
@@ -50,9 +52,16 @@ class MemBar(IntervalModule, ColorRangeModule):
         else:
             color = self.color
 
-        self.output = {
-            "full_text": self.format.format(
-                used_mem_bar=make_bar(memory_usage.percent)),
-            "short_text": "",
-            "color": color
-        }
+        if self.optional:
+            self.output = {
+                "full_text": self.format.format(
+                    used_mem_bar=make_bar(memory_usage.percent)),
+                "short_text": "",
+                "color": color
+            }
+        else:
+            self.output = {
+                "full_text": self.format.format(
+                    used_mem_bar=make_bar(memory_usage.percent)),
+                "color": color
+            }

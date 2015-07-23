@@ -28,7 +28,7 @@ class CpuUsageGraph(CpuUsage, ColorRangeModule):
         ("graph_width", "Width of the cpu usage graph"),
         ("graph_style", "Graph style ('blocks', 'braille-fill', 'braille-peak', or 'braille-snake')"),
         ("direction", "Graph running direction ('left-to-right', 'right-to-left')"),
-        ("optional", "If it is true, this graph will hide when screen is too narrow")
+        ("optional", "If it is true, this graph will hide when screen is too narrow"),
     )
 
     graph_width = 15
