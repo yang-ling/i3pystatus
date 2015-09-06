@@ -156,7 +156,7 @@ class Usb(IntervalModule):
   def getUnencryptedPartitionOutput(self, path):
       mountPoint = self.getMountPoint(path)
       if mountPoint:
-          color = MOUNTED_COLOR
+          color = self.MOUNTED_COLOR
           if self.isReadOnly(path):
               spaceAvail = "ro"
           else:
@@ -216,6 +216,7 @@ class Usb(IntervalModule):
   def run(self):
     leaves = self.getLeafDevicePaths()
     leaves = list(filter(lambda path: not self.fastIgnore(path), leaves))
+    global attributeMaps
     attributeMaps = self.getAttributeMaps(leaves)
     leaves = filter(lambda path: not self.ignore(path, attributeMaps[path]), leaves)
     outputs = filter(None, map(self.getOutput, leaves))
