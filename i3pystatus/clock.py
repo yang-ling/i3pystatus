@@ -64,6 +64,7 @@ class Clock(IntervalModule):
     interval = 1
     on_upscroll = ["scroll_format", 1]
     on_downscroll = ["scroll_format", -1]
+    on_leftclick = "gsimplecal"
 
     def init(self):
         env_lang = os.environ.get('LC_TIME', None)
