@@ -366,7 +366,7 @@ class Network(IntervalModule, ColorRangeModule):
 
         # Don't require importing psutil unless using the functionality it offers.
         if any(s in self.format_up or s in self.format_down for s in
-               ['bytes_sent', 'bytes_recv', 'packets_sent', 'packets_recv', 'network_graph',
+               ['bytes_sent', 'bytes_recv', 'packets_sent', 'packets_recv', 'network_graph','bytes_sent_str', 'bytes_recv_str',
                 'rx_tot_Mbytes', 'tx_tot_Mbytes', 'kbs']):
             self.network_traffic = NetworkTraffic(self.unknown_up, self.divisor, self.round_size)
         else:
@@ -399,7 +399,7 @@ class Network(IntervalModule, ColorRangeModule):
 
     def run(self):
         format_values = dict(kbs="", network_graph="", bytes_sent="", bytes_recv="", packets_sent="", packets_recv="",
-                             rx_tot_Mbytes="", tx_tot_Mbytes="",
+                             rx_tot_Mbytes="", tx_tot_Mbytes="",bytes_sent_str="", bytes_recv_str="",
                              interface="", v4="", v4mask="", v4cidr="", v6="", v6mask="", v6cidr="", mac="",
                              essid="", freq="", quality="", quality_bar="")
 
@@ -420,6 +420,17 @@ class Network(IntervalModule, ColorRangeModule):
 
             format_values['network_graph'] = self.get_network_graph(kbs, limit)
             format_values['kbs'] = "{0:.1f}".format(round(kbs, 2))
+
+            recv = network_usage['bytes_recv']
+            if recv > 2 * 1024:
+                format_values['bytes_recv_str'] = "{0:.1f}MiB".format(recv / 1024)
+            else:
+                format_values['bytes_recv_str'] = "{!s}KiB".format(recv)
+            sent = network_usage['bytes_sent']
+            if sent > 2 * 1024:
+                format_values['bytes_sent_str'] = "{0:.1f}MiB".format(sent / 1024)
+            else:
+                format_values['bytes_sent_str'] = "{!s}KiB".format(sent)
 
             if self.dynamic_color:
                 if self.separate_color and self.pango_enabled:
